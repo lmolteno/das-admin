@@ -8,6 +8,7 @@ export default function Nav() {
   const path = usePathname();
   const customerPath = path.includes('customers')
   const productPath = path.includes('products')
+  const invoicePath = path.includes('invoices')
 
   return (
     <Navbar>
@@ -22,8 +23,8 @@ export default function Nav() {
             Customers
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link href="#" color="foreground" aria-current="page">
+        <NavbarItem isActive={invoicePath} aria-current={invoicePath ? "page" : undefined}>
+          <Link color={invoicePath ? undefined : "foreground"} href="/invoices">
             Invoices
           </Link>
         </NavbarItem>

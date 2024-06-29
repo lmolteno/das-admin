@@ -1,9 +1,8 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Tooltip, Button, Card, CardHeader, CardBody, Divider } from "@nextui-org/react";
-import { Customer, Product } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { FaEye, FaPencil, FaTrash } from "react-icons/fa6";
+import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Tooltip, Button, Card, CardHeader, CardBody } from "@nextui-org/react";
+import { Product } from "@prisma/client";
+import { FaTrash } from "react-icons/fa6";
 import ProductEditForm from "./product-edit-form";
 import ProductForm from "./product-form";
 
@@ -44,8 +43,6 @@ function ProductCell(columnKey: string, product: Product) {
 }
 
 export default function ProductsTable({ products }: { products: Product[] }) {
-  const router = useRouter();
-
   return (
     <Card>
       <CardHeader>
