@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Button, Link, Navbar, NavbarBrand, NavbarContent, NavbarItem, NextUIProvider } from "@nextui-org/react";
 import "./globals.css";
+import { usePathname } from "next/navigation";
+import Nav from "./nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +19,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <NextUIProvider>
+        <body className={inter.className + " min-h-screen"}>
+          <Nav />
+          <main className="flex flex-col items-center justify-between px-24 py-12">
+            {children}
+          </main>
+        </body>
+      </NextUIProvider>
     </html>
   );
 }
