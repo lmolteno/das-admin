@@ -1,22 +1,23 @@
 "use client";
 
 import { SubmitButton } from "@/components/submit-button";
-import { useDisclosure, Modal, Textarea, Button, Input, ModalContent, ModalFooter, ModalBody, ModalHeader, Card, CardBody } from "@nextui-org/react";
-import createCustomer from "./actions/createCustomer";
+import { useDisclosure, Modal, Textarea, Button, Input, ModalContent, ModalFooter, ModalBody, ModalHeader, Card, CardBody, Tooltip } from "@nextui-org/react";
 import { useFormState } from "react-dom";
-import { FaCircleExclamation, FaPlus } from "react-icons/fa6";
-import { useRouter } from "next/navigation";
+import { FaCircleExclamation, FaPencil } from "react-icons/fa6";
+import { Product } from "@prisma/client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import editProduct from "./actions/editProduct";
 
 const initialState = {
-  message: '',
-  success: false
+  success: false,
+  message: ''
 }
 
-export default function CustomerForm() {
-  const [formState, formAction] = useFormState(createCustomer, initialState)
-  const router = useRouter();
+export default function ProductEditForm({ product }: { product: Product }) {
+  const [formState, formAction] = useFormState(editProduct.bind(null, product.id), initialState)
   const { isOpen, onOpen, onOpenChange, onClose: manuallyClose } = useDisclosure();
+  const router = useRouter()
 
   useEffect(() => {
     if (formState.message == '' && formState.success) {
@@ -27,24 +28,21 @@ export default function CustomerForm() {
 
   return (
     <>
-      <Button color="primary" onPress={onOpen} startContent={<FaPlus />}>
-        Create Customer
-      </Button>
+      <Tooltip content="Edit product">
+        <Button isIconOnly variant="light" onPress={onOpen}>
+          <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+            <FaPencil />
+          </span>
+        </Button>
+      </Tooltip>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
         <ModalContent>
           {(onClose) => (
             <form action={formAction}>
-              <ModalHeader className="flex flex-col gap-1">New Customer</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Edit Customer</ModalHeader>
               <ModalBody className="grid grid-cols-2 gap-4">
-                <Input type="text" name="name" label="Name" className="col-span-2" />
-                <Input type="text" name="contactName" label="Contact Name" />
-                <Input type="email" name="email" label="Email" />
-                <Textarea
-                  label="Address"
-                  name="address"
-                  placeholder="Customer Address"
-                  className="col-span-2"
-                />
+                <Input type="text" name="name" label="Name" defaultValue={product.name}/>
+                <Input type="number" name="price" label="Price" defaultValue={product.price.toString()} />
                 {formState.message && (
                   <Card className="col-span-2 bg-red-200">
                     <CardBody className="flex flex-row gap-4">
@@ -58,7 +56,7 @@ export default function CustomerForm() {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
-                <SubmitButton />
+                <SubmitButton text="Save" />
               </ModalFooter>
             </form>
           )}

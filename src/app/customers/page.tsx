@@ -14,7 +14,6 @@ export default async function Customers() {
   return (
     <div className="container mx-auto">
       <CustomerTable customers={customers} />
-      <CustomerForm />
     </div>
   );
 }

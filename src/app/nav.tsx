@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 export default function Nav() {
   const path = usePathname();
   const customerPath = path.includes('customers')
+  const productPath = path.includes('products')
 
   return (
     <Navbar>
@@ -26,8 +27,8 @@ export default function Nav() {
             Invoices
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
+        <NavbarItem isActive={productPath} aria-current={productPath ? "page" : undefined}>
+          <Link color={productPath ? undefined : "foreground"} href="/products">
             Products
           </Link>
         </NavbarItem>
