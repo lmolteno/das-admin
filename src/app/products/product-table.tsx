@@ -52,9 +52,9 @@ function ProductCell(columnKey: string, product: Product) {
   }
 }
 
-export default function ProductsTable({products}: { products: Product[] }) {
+export default function ProductsTable({products, allowCreation = false }: { products: Product[], allowCreation?: boolean }) {
   return (
-    <Table aria-label="Table of products" bottomContent={<div className="flex justify-end"><ProductForm/></div>}>
+    <Table aria-label="Table of products" bottomContent={allowCreation ? <div className="flex justify-end"><ProductForm/></div> : undefined}>
       <TableHeader columns={columns}>
         {(column) => <TableColumn align={column.key == 'actions' ? 'end' : 'start'}
                                   key={column.key}>{column.label}</TableColumn>}

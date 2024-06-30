@@ -24,12 +24,12 @@ const columns = [
   },
 ]
 
-export default function InvoiceTable({ invoices, customers }: { invoices: Invoice[], customers: Customer[] }) {
+export default function InvoiceTable({ invoices, customers, allowCreation = false }: { invoices: Invoice[], customers: Customer[], allowCreation?: boolean }) {
   const router = useRouter();
   return (
      <Table
        aria-label="Table of invoices" onRowAction={id => router.push(`/invoices/${id}`)}
-       bottomContent={<div className="flex justify-end"><InvoiceForm customers={customers} /></div>}
+       bottomContent={allowCreation ? <div className="flex justify-end"><InvoiceForm customers={customers} /></div> : undefined}
      >
        <TableHeader columns={columns}>
          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}

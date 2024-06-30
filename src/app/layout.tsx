@@ -21,14 +21,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " min-h-screen"}>
-        <Providers>
-          <Nav/>
-          <main className="flex flex-col items-center justify-between px-24 py-12">
-            {children}
-          </main>
-        </Providers>
-      </body>
+    <body className={inter.className + " min-h-screen"}>
+    <NextUIProvider>
+      <Providers>
+        <Nav/>
+        <main className="flex flex-col items-center justify-between px-24 py-12">
+          {children}
+        </main>
+      </Providers>
+    </NextUIProvider>
+    </body>
     </html>
   );
 }

@@ -46,7 +46,7 @@ const columns = [
   },
 ]
 
-function CustomerDeleteButton({customer}: { customer: Customer }) {
+function CustomerDeleteButton({ customer }: { customer: Customer }) {
   const router = useRouter();
 
   const action = useCallback(() => {
@@ -73,11 +73,11 @@ function CustomerDeleteButton({customer}: { customer: Customer }) {
   </Tooltip>;
 }
 
-export default function CustomerTable({customers}: { customers: Customer[] }) {
+export default function CustomerTable({ customers, allowCreation = false }: { customers: Customer[], allowCreation?: boolean }) {
   const router = useRouter();
 
   return (
-    <Table aria-label="Table of customers" bottomContent={<div className="flex justify-end"><CustomerForm/></div>}
+    <Table aria-label="Table of customers" bottomContent={allowCreation ? <div className="flex justify-end"><CustomerForm/></div> : undefined}
            onRowAction={(row) => router.push(`/customers/${row}`)}
     >
       <TableHeader columns={columns}>
