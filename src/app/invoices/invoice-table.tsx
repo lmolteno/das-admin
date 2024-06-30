@@ -43,11 +43,11 @@ export default function InvoiceTable({ invoices, customers }: { invoices: Invoic
             {(item) => {
               const customer = customers.find(c => c.id === item.customerId)
               return (
-                  <TableRow key={item.id} className="hover:bg-foreground-100 hover:cursor-pointer transition-background">
-                    <TableCell className="rounded-s-md">{customer?.name}</TableCell>
+                  <TableRow key={item.id} className="hover:bg-foreground-100 hover:cursor-pointer transition-background rounded-lg">
+                    <TableCell className="rounded-s-lg">{customer?.name}</TableCell>
                     <TableCell>{item.invoiceDate.toLocaleDateString()}</TableCell>
                     <TableCell>{item.dueDate.toLocaleDateString()}</TableCell>
-                    <TableCell className="rounded-e-md">{item.paid ? 'Yes' : 'No'}</TableCell>
+                    <TableCell className="rounded-e-lg">{item.paid ? 'Yes' : 'No'}</TableCell>
                   </TableRow>
             )}
             }

@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { Card, CardBody, CardHeader, Divider, Table, TableHeader } from "@nextui-org/react";
 import { InvoicesTable } from "./invoices-table";
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -15,17 +14,14 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="container mx-auto">
-      <p className="text-2xl">{customer.name}</p>
-      <Card>
-        <CardHeader>
-          <p className="text-xl">Invoices</p>
-        </CardHeader>
-        <Divider />
-        <CardBody>
-          <InvoicesTable invoices={customer.invoices} /> 
-        </CardBody>
-      </Card>
+    <div className="container mx-auto flex flex-col gap-8">
+      <div>
+        <p className="text-6xl">{customer.name}</p>
+        <div className="ps-4 text-lg">
+          {customer.address.split('\n').map(l => (<p key={l}>{l}</p>))}
+        </div>
+      </div>
+      <InvoicesTable invoices={customer.invoices} customer={customer} />
     </div>
   );
 }

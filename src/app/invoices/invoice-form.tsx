@@ -50,8 +50,13 @@ export default function InvoiceForm({ customers }: { customers: Customer[] }) {
             <form action={formAction}>
               <ModalHeader className="flex flex-col gap-1">New Invoice</ModalHeader>
               <ModalBody className="grid grid-cols-2 gap-4">
-                <Autocomplete items={customers} label="Customer" name="customer" placeholder="Select customer" className="col-span-2">
-                  {(customer) => <AutocompleteItem key={customer.id}>{customer.name}</AutocompleteItem>}
+                <Autocomplete label="Customer" name="customer" placeholder="Select customer"
+                              className="col-span-2"
+                              defaultItems={customers}
+                              defaultSelectedKey={customers.length === 1 ? customers[0].id.toString() : undefined}
+                              isDisabled={customers.length === 1}
+                >
+                  {(customer) => <AutocompleteItem key={customer.id.toString()}>{customer.name}</AutocompleteItem>}
                 </Autocomplete>
                 {formState.message && (
                   <Card className="col-span-2 bg-red-200">

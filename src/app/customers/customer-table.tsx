@@ -54,7 +54,7 @@ export default function CustomerTable({ customers }: { customers: Customer[] }) 
                   columnKey != 'actions'
                     ? <TableCell>{getKeyValue(item, columnKey)}</TableCell>
                     : (<TableCell>
-                      <div className="relative flex items-center gap-2">
+                      <div className="relative flex items-center justify-end gap-2">
                         <Tooltip content="Details">
                           <Button isIconOnly variant="light" onPress={() => router.push(`/customers/${item.id}`)}>
                             <span className="text-lg text-default-400 cursor-pointer active:opacity-50">

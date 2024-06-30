@@ -39,7 +39,7 @@ export default function ProductEditForm({ product }: { product: Product }) {
         <ModalContent>
           {(onClose) => (
             <form action={formAction}>
-              <ModalHeader className="flex flex-col gap-1">Edit Customer</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Edit Product</ModalHeader>
               <ModalBody className="grid grid-cols-2 gap-4">
                 <Input type="text" name="name" label="Name" defaultValue={product.name}/>
                 <Input type="number" name="price" label="Price" defaultValue={product.price.toString()} />
