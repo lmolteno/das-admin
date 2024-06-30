@@ -1,7 +1,10 @@
-import Image from "next/image";
+import {HeaderText} from "@/components/header-text";
 
-export default function Home() {
+
+export default async function Home() {
   return (
-    <h1>Hello world!</h1>
-  );
+    <div>
+      <HeaderText>Home</HeaderText>
+    </div>
+  )
 }

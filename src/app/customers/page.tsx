@@ -1,18 +1,14 @@
 import prisma from "@/lib/prisma";
-import { Customer } from "@prisma/client";
+import {Customer} from "@prisma/client";
 import CustomerTable from "./customer-table";
-import CustomerForm from "./customer-form";
-
-async function getData() {
-  const customers = await prisma.customer.findMany()
-  return customers;
-}
+import {HeaderText} from "@/components/header-text";
 
 export default async function Customers() {
-  const customers: Customer[] = await getData()
+  const customers = await prisma.customer.findMany()
 
   return (
     <div className="container mx-auto">
+      <HeaderText><h1>Customers</h1></HeaderText>
       <CustomerTable customers={customers} />
     </div>
   );

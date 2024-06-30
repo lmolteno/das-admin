@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import InvoiceTable from "./invoice-table";
+import {HeaderText} from "@/components/header-text";
 
 
 export default async function Customers() {
@@ -8,6 +9,7 @@ export default async function Customers() {
 
   return (
     <div className="container mx-auto">
+      <HeaderText><h1>Invoices</h1></HeaderText>
       <InvoiceTable invoices={invoices} customers={customers} />
     </div>
   );

@@ -1,8 +1,18 @@
 "use client";
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, getKeyValue, Tooltip, Button, Card, CardHeader, CardBody } from "@nextui-org/react";
-import { Product } from "@prisma/client";
-import { FaTrash } from "react-icons/fa6";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  getKeyValue,
+  Tooltip,
+  Button
+} from "@nextui-org/react";
+import {Product} from "@prisma/client";
+import {FaTrash} from "react-icons/fa6";
 import ProductEditForm from "./product-edit-form";
 import ProductForm from "./product-form";
 
@@ -26,11 +36,11 @@ function ProductCell(columnKey: string, product: Product) {
     case 'actions':
       return (
         <TableCell>
-          <ProductEditForm product={product} />
+          <ProductEditForm product={product}/>
           <Tooltip color="danger" content="Delete product">
             <Button isIconOnly variant="light">
               <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <FaTrash />
+                <FaTrash/>
               </span>
             </Button>
           </Tooltip>
@@ -42,29 +52,20 @@ function ProductCell(columnKey: string, product: Product) {
   }
 }
 
-export default function ProductsTable({ products }: { products: Product[] }) {
+export default function ProductsTable({products}: { products: Product[] }) {
   return (
-    <Card>
-      <CardHeader>
-        <div className="w-full flex flex-row justify-between">
-          <p className="text-4xl">Products</p>
-          <ProductForm />
-        </div>
-      </CardHeader>
-      <CardBody>
-        <Table aria-label="Table of products" removeWrapper>
-          <TableHeader columns={columns}>
-            {(column) => <TableColumn align={column.key == 'actions' ? 'end' : 'start'} key={column.key}>{column.label}</TableColumn>}
-          </TableHeader>
-          <TableBody items={products}>
-            {(item) => (
-              <TableRow key={item.id}>
-                {(columnKey) => ProductCell(columnKey.toString(), item)}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </CardBody>
-    </Card>
+    <Table aria-label="Table of products" bottomContent={<div className="flex justify-end"><ProductForm/></div>}>
+      <TableHeader columns={columns}>
+        {(column) => <TableColumn align={column.key == 'actions' ? 'end' : 'start'}
+                                  key={column.key}>{column.label}</TableColumn>}
+      </TableHeader>
+      <TableBody items={products}>
+        {(item) => (
+          <TableRow key={item.id}>
+            {(columnKey) => ProductCell(columnKey.toString(), item)}
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
   )
 }

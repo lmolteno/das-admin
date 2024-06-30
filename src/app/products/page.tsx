@@ -1,17 +1,13 @@
 import prisma from "@/lib/prisma";
 import ProductsTable from "./product-table";
-import ProductForm from "./product-form";
-
-async function getData() {
-  const products = await prisma.product.findMany()
-  return products;
-}
+import {HeaderText} from "@/components/header-text";
 
 export default async function Customers() {
-  const products = await getData()
+  const products = await prisma.product.findMany()
 
   return (
     <div className="container mx-auto">
+      <HeaderText><h1>Products</h1></HeaderText>
       <ProductsTable products={products} />
     </div>
   );
