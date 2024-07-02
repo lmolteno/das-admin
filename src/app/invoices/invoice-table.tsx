@@ -1,7 +1,7 @@
 "use client";
 
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
-import { Customer, Invoice } from "@prisma/client";
+import {Customer, Invoice, InvoiceTemplate} from "@prisma/client";
 import InvoiceForm from "@/app/invoices/invoice-form";
 import { useRouter } from "next/navigation";
 
@@ -24,12 +24,12 @@ const columns = [
   },
 ]
 
-export default function InvoiceTable({ invoices, customers, allowCreation = false }: { invoices: Invoice[], customers: Customer[], allowCreation?: boolean }) {
+export default function InvoiceTable({ invoices, customers, templates, allowCreation = false }: { invoices: Invoice[], customers: Customer[], templates: InvoiceTemplate[], allowCreation?: boolean }) {
   const router = useRouter();
   return (
      <Table
        aria-label="Table of invoices" onRowAction={id => router.push(`/invoices/${id}`)}
-       bottomContent={allowCreation ? <div className="flex justify-end"><InvoiceForm customers={customers} /></div> : undefined}
+       bottomContent={allowCreation ? <div className="flex justify-end"><InvoiceForm customers={customers} templates={templates} /></div> : undefined}
      >
        <TableHeader columns={columns}>
          {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}

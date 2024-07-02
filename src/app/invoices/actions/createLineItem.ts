@@ -7,7 +7,7 @@ async function createLineItem(invoiceId: number, products: Product[], state: { m
   const productName = formData.get("productName")?.toString()
   const quantity = parseInt(formData.get("quantity")?.toString() ?? 'NaN')
 
-  const product = products.find(p => p.name === productName)
+  const product = await prisma.product.findFirst({ where: { name: productName } })
   if (!product || Number.isNaN(quantity)) {
     return { message: 'invalid field', success: false };
   }

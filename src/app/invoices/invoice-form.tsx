@@ -19,7 +19,7 @@ import {FaCircleExclamation, FaPlus} from "react-icons/fa6";
 import {useRouter} from "next/navigation";
 import React, {useEffect} from "react";
 import createInvoice from "./actions/createInvoice";
-import { Customer } from "@prisma/client";
+import { Customer, InvoiceTemplate } from "@prisma/client";
 
 const initialState = {
   message: '',
@@ -27,8 +27,8 @@ const initialState = {
   invoiceId: undefined
 }
 
-export default function InvoiceForm({ customers }: { customers: Customer[] }) {
-  const [formState, formAction] = useFormState(createInvoice.bind(null, customers), initialState)
+export default function InvoiceForm({ customers, templates }: { customers: Customer[], templates: InvoiceTemplate[] }) {
+  const [formState, formAction] = useFormState(createInvoice, initialState)
   const router = useRouter();
   const {isOpen, onOpen, onOpenChange, onClose: manuallyClose} = useDisclosure();
 
@@ -57,6 +57,14 @@ export default function InvoiceForm({ customers }: { customers: Customer[] }) {
                               isDisabled={customers.length === 1}
                 >
                   {(customer) => <AutocompleteItem key={customer.id.toString()}>{customer.name}</AutocompleteItem>}
+                </Autocomplete>
+                <Autocomplete label="Invoice Template" name="template" placeholder="Select template"
+                              className="col-span-2"
+                              defaultItems={templates}
+                              defaultSelectedKey={templates.length === 1 ? templates[0].id.toString() : undefined}
+                              isDisabled={templates.length === 1}
+                >
+                  {(template) => <AutocompleteItem key={template.id.toString()}>{template.name}</AutocompleteItem>}
                 </Autocomplete>
                 {formState.message && (
                   <Card className="col-span-2 bg-red-200">

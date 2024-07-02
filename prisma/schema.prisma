@@ -17,7 +17,7 @@ model Customer {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  name        String    @db.VarChar()
+  name        String    @unique @db.VarChar()
   address     String    @db.VarChar()
   email       String    @db.VarChar()
   contactName String    @db.VarChar()
@@ -26,20 +26,22 @@ model Customer {
 }
 
 model Invoice {
-  id          Int        @id @default(autoincrement())
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  customer    Customer   @relation(fields: [customerId], references: [id])
+  id          Int             @id @default(autoincrement())
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  customer    Customer        @relation(fields: [customerId], references: [id])
   customerId  Int
-  invoiceDate DateTime   @default(now())
-  dueDate     DateTime   @default(now())
+  invoiceDate DateTime        @default(now())
+  dueDate     DateTime        @default(now())
   lineItems   LineItem[]
-  paid        Boolean    @default(false)
+  paid        Boolean         @default(false)
+  template    InvoiceTemplate @relation(fields: [templateId], references: [id])
+  templateId  Int
 }
 
 model Product {
   id         Int        @id @default(autoincrement())
-  name       String     @db.VarChar()
+  name       String     @unique @db.VarChar()
   price      Float
   customerId Int?
   customer   Customer?  @relation(fields: [customerId], references: [id])
@@ -56,11 +58,11 @@ model LineItem {
 }
 
 model InvoiceTemplate {
-  id        Int @id @default(autoincrement())
-  name      String
-  logoFile  String 
+  id                  Int       @id @default(autoincrement())
+  name                String
   fromAddress         String
-  paymentInstructions Json 
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  paymentInstructions Json
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  invoices            Invoice[]
 }
