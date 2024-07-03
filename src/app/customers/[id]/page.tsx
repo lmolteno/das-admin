@@ -1,6 +1,5 @@
 import prisma from "@/lib/prisma";
 import {InvoicesTable} from "./invoices-table";
-import {HeaderText} from "@/components/header-text";
 import {Card, CardBody, CardHeader, Divider} from "@nextui-org/react";
 import React from "react";
 import CustomerEditForm from "@/app/customers/customer-edit-form";
@@ -12,6 +11,7 @@ export default async function Page({params}: { params: { id: string } }) {
   }
 
   const customer = await prisma.customer.findFirst({where: {id: id}, include: { invoices: true }})
+  const templates = await prisma.invoiceTemplate.findMany()
 
   if (!customer) {
     return undefined;
@@ -42,7 +42,7 @@ export default async function Page({params}: { params: { id: string } }) {
           </Card>
         </div>
       </div>
-      <InvoicesTable invoices={customer.invoices} customer={customer}/>
+      <InvoicesTable invoices={customer.invoices} customer={customer} templates={templates} />
     </div>
   );
 }

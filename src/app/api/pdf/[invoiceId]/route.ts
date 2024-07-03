@@ -1,13 +1,11 @@
 "use server"
 
 import * as fs from 'fs';
-import { formatDate } from 'date-fns';
-import sanitizeHtml from 'sanitize-html';
+import { formatInTimeZone } from 'date-fns-tz';
 
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
-const dateFormat = (date: Date) => formatDate(date, 'MMM d, yyyy');
 
 async function* nodeStreamToIterator(stream: fs.ReadStream) {
   for await (const chunk of stream) {
@@ -33,7 +31,10 @@ function streamFile(path: string): ReadableStream {
   return iteratorToStream(nodeStreamToIterator(nodeStream))
 }
 
-export const GET = async (request: Request, params: { invoiceId: number }) => {
+export const GET = async (request: NextRequest, params: { invoiceId: number }) => {
+  const tz = request.nextUrl.searchParams.get("tz") ?? 'Pacific/Auckland';
+
+  const dateFormat = (date: Date) => formatInTimeZone(date, tz, 'MMM d, yyyy');
   const invoice = await prisma.invoice.findFirst({
     where: { id: params.invoiceId },
     include: {
@@ -46,7 +47,7 @@ export const GET = async (request: Request, params: { invoiceId: number }) => {
   });
 
   if (invoice === null) {
-    return { success: false }
+    return NextResponse.json({ success: false })
   }
 
   try {
@@ -75,17 +76,17 @@ export const GET = async (request: Request, params: { invoiceId: number }) => {
           .reduce((s, l) => s + (l.product.price * l.quantity), 0).toFixed(2)
       )
 
-    require('child_process').execSync(`cd weasyprint && echo "${sanitizeHtml(filledTemplate)}" | weasyprint - output.pdf`, { encoding: "utf-8" })
+    require('child_process').execSync(`cd weasyprint && echo "${filledTemplate}" | weasyprint - output.pdf`, { encoding: "utf-8" })
 
     return new NextResponse(streamFile("weasyprint/output.pdf"), {
       headers: {
         "Content-Type": "application/pdf",
         "Content-": "application/pdf",
-        "Content-Disposition": `attachment; filename="${formatDate(invoice.dueDate, "yyyyMMdd")}_${invoice.customer.name.toLowerCase().replace(" ", "")}.pdf"`
+        "Content-Disposition": `attachment; filename="${formatInTimeZone(invoice.dueDate, tz, "yyyyMMdd")}_${invoice.customer.name.toLowerCase().replace(" ", "")}.pdf"`
       }
     })
 
   } catch {
-    return { success: false }
+    return NextResponse.json({ success: false })
   }
 }

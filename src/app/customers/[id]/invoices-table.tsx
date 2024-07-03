@@ -1,20 +1,14 @@
 "use client"
 
 import {
-  Button,
-  Card, CardBody, CardHeader,
-  getKeyValue,
   Table,
   TableBody,
   TableCell,
   TableColumn,
   TableHeader,
   TableRow,
-  Tooltip
 } from "@nextui-org/react";
-import {Customer, Invoice} from "@prisma/client";
-import router from "next/router";
-import {FaEye, FaPencil, FaTrash} from "react-icons/fa6";
+import {Customer, Invoice, InvoiceTemplate} from "@prisma/client";
 import {useRouter} from "next/navigation";
 import InvoiceForm from "@/app/invoices/invoice-form";
 
@@ -33,13 +27,13 @@ const columns = [
   },
 ]
 
-export function InvoicesTable({invoices, customer}: { invoices: Invoice[], customer: Customer }) {
+export function InvoicesTable({invoices, customer, templates }: { invoices: Invoice[], customer: Customer, templates: InvoiceTemplate[] }) {
   const router = useRouter();
   return (
     <div>
       <div className="w-full flex flex-row px-6 justify-between mb-4">
         <p className="text-4xl">Invoices</p>
-        <InvoiceForm customers={[customer]}/>
+        <InvoiceForm customers={[customer]} templates={templates} />
       </div>
       <Table aria-label="Table of invoices" onRowAction={id => router.push(`/invoices/${id}`)}>
         <TableHeader columns={columns}>

@@ -10,15 +10,11 @@ import {
   getKeyValue,
   Tooltip,
   Button,
-  Card,
-  CardBody,
-  CardHeader
 } from "@nextui-org/react";
 import {Customer} from "@prisma/client";
 import {useRouter} from "next/navigation";
-import {FaEye, FaPencil, FaTrash} from "react-icons/fa6";
+import { FaTrash } from "react-icons/fa6";
 import CustomerEditForm from "./customer-edit-form";
-import ProductForm from "../products/product-form";
 import CustomerForm from "./customer-form";
 import {deleteCustomer} from "./actions/deleteCustomer";
 import {useCallback} from "react";
@@ -59,7 +55,7 @@ function CustomerDeleteButton({ customer }: { customer: Customer }) {
           }
         }
       )
-  }, [customer])
+  }, [customer, router])
 
   return <Tooltip color="danger" content="Delete customer">
     <Button

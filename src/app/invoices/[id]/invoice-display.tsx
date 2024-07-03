@@ -117,7 +117,15 @@ export default function InvoiceDisplay({invoice, products}: {
         </CardBody>
       </Card>
       <div className="flex w-full justify-center">
-        <Button className="mt-8 w-96" color="secondary" startContent={<FaDownload />} as="a" href={`/api/pdf/${invoice.id}`}>Download PDF</Button>
+        <Button
+          className="mt-8 w-96"
+          color="secondary"
+          startContent={<FaDownload/>}
+          as="a"
+          href={`/api/pdf/${invoice.id}?tz=${encodeURI(Intl.DateTimeFormat().resolvedOptions().timeZone)}`}
+        >
+          Download PDF
+        </Button>
       </div>
     </div>
   )

@@ -9,6 +9,8 @@ import CustomerForm from "@/app/customers/customer-form";
 import InvoiceTemplateForm from "@/app/invoice-templates/invoice-template-form";
 import InvoiceTemplateTable from "@/app/invoice-templates/invoice-template-table";
 
+export const dynamic = 'force-dynamic';
+
 
 export default async function Home() {
   const invoices = await prisma.invoice.findMany()
