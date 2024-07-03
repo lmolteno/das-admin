@@ -12,14 +12,13 @@ import {
   TableHeader,
   TableRow
 } from "@nextui-org/react";
-import {FaCircleExclamation, FaPlus, FaTrash} from "react-icons/fa6";
+import {FaCircleExclamation, FaDownload, FaPlus, FaTrash} from "react-icons/fa6";
 import React, {useEffect} from "react";
 import {useFormState} from "react-dom";
 import createLineItem from "@/app/invoices/actions/createLineItem";
 import {I18nProvider} from "@react-aria/i18n";
 import {removeLineItem, updateDueDate, updateInvoiceDate} from "@/app/invoices/[id]/actions/updateInvoice";
 import {useRouter} from "next/navigation";
-import {createPdf} from "@/app/invoices/[id]/actions/createPdf";
 
 export default function InvoiceDisplay({invoice, products}: {
   invoice: Invoice & { lineItems: (LineItem & { product: Product })[], customer: Customer },
@@ -117,8 +116,8 @@ export default function InvoiceDisplay({invoice, products}: {
           )}
         </CardBody>
       </Card>
-      <div>
-        <Button onPress={() => createPdf(invoice.id)}>Create Invoice</Button>
+      <div className="flex w-full justify-center">
+        <Button className="mt-8 w-96" color="secondary" startContent={<FaDownload />} as="a" href={`/api/pdf/${invoice.id}`}>Download PDF</Button>
       </div>
     </div>
   )

@@ -12,12 +12,15 @@
     "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.4.2",
     "@prisma/client": "^5.16.1",
+    "@types/sanitize-html": "^2.11.0",
+    "date-fns": "^3.6.0",
     "framer-motion": "^11.2.12",
     "next": "14.2.4",
     "next-auth": "^5.0.0-beta.19",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^5.2.1"
+    "react-icons": "^5.2.1",
+    "sanitize-html": "^2.13.0"
   },
   "devDependencies": {
     "@types/node": "^20",

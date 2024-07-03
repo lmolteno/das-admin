@@ -1,9 +1,12 @@
 "use client";
 
-import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@nextui-org/react";
+import {Button, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Tooltip} from "@nextui-org/react";
 import {Customer, Invoice, InvoiceTemplate} from "@prisma/client";
 import InvoiceForm from "@/app/invoices/invoice-form";
 import { useRouter } from "next/navigation";
+import deleteProduct from "@/app/products/actions/deleteProduct";
+import {FaTrash} from "react-icons/fa6";
+import {deleteInvoice} from "@/app/invoices/[id]/actions/updateInvoice";
 
 const columns = [
   {
@@ -22,6 +25,10 @@ const columns = [
     label: 'PAID',
     key: 'paid'
   },
+  {
+    label: 'ACTIONS',
+    key: 'actions'
+  },
 ]
 
 export default function InvoiceTable({ invoices, customers, templates, allowCreation = false }: { invoices: Invoice[], customers: Customer[], templates: InvoiceTemplate[], allowCreation?: boolean }) {
@@ -32,7 +39,8 @@ export default function InvoiceTable({ invoices, customers, templates, allowCrea
        bottomContent={allowCreation ? <div className="flex justify-end"><InvoiceForm customers={customers} templates={templates} /></div> : undefined}
      >
        <TableHeader columns={columns}>
-         {(column) => <TableColumn key={column.key}>{column.label}</TableColumn>}
+         {(column) =>
+           <TableColumn align={column.key == 'actions' ? 'end' : 'start'} key={column.key}>{column.label}</TableColumn>}
        </TableHeader>
        <TableBody items={invoices}>
          {(item) => {
@@ -43,6 +51,15 @@ export default function InvoiceTable({ invoices, customers, templates, allowCrea
                  <TableCell>{item.invoiceDate.toLocaleDateString()}</TableCell>
                  <TableCell>{item.dueDate.toLocaleDateString()}</TableCell>
                  <TableCell className="rounded-e-lg">{item.paid ? 'Yes' : 'No'}</TableCell>
+                 <TableCell>
+                 <Tooltip color="danger" content="Delete invoice">
+                   <Button isIconOnly variant="light" onPress={() => deleteInvoice(item.id).then(router.refresh)}>
+                      <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                        <FaTrash/>
+                      </span>
+                   </Button>
+                 </Tooltip>
+                 </TableCell>
                </TableRow>
          )}
          }

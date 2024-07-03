@@ -12,3 +12,8 @@ export async function updateDueDate(invoiceId: number, value: Date) {
 export async function removeLineItem(lineItemId: number) {
   await prisma.lineItem.delete({ where: { id: lineItemId } });
 }
+
+export async function deleteInvoice(invoiceId: number) {
+  await prisma.lineItem.deleteMany({ where: { invoiceId }});
+  await prisma.invoice.delete({ where: { id: invoiceId } });
+}

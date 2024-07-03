@@ -57,11 +57,6 @@ export default function Nav() {
           </Dropdown>
         </NavbarContent>
       )}
-      {authStatus === 'loading' && (
-        <NavbarContent justify="end">
-          <NavbarItem>Loading...</NavbarItem>
-        </NavbarContent>
-      )}
     </Navbar>
   )
 }
